@@ -1,24 +1,24 @@
-public class User {
-    private String userID;
-    private String username;
-    private String password;
-    private Chat chat;
+import java.util.List;
 
-    public User(String userID, String username, String email) {
-        this.userID = userID;
-        this.username = username;
-        this.email = email;
+public abstract class Chat {
+    private String ID;
+    private List<Message> messaggi;
+
+    public Chat(String ID) {
+        this.ID = ID;
     }
 
-    public String getUserID() {
-        return userID;
+    public abstract List<User> getParticipants();
+
+    public List<Message> getMessaggi() {
+        return messaggi;
     }
 
-    public String getUsername() {
-        return username;
+    public void sendMessage(Message message) {
+       //TODO
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getID() {
+        return ID;
     }
 }
