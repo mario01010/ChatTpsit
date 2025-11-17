@@ -1,16 +1,16 @@
 import java.util.List;
 
 public class DM extends Chat {
-    private User participant;
+    private List<User> participants;
 
-    public DM(String ID, User participant) {
+    public DM(String ID, User u1, User u2) {
         super(ID);
-        this.participant = participant;
+        this.participants = List.of(u1, u2);
     }
 
     @Override
     public List<User> getParticipants() {
-        return List.of(participant);
+        return participants;
     }
 
     @Override
