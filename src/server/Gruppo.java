@@ -28,4 +28,14 @@ public class Gruppo extends Chat {
     public String getChatType() {
         return "Gruppo";
     }
+
+    public void addParticipant(User u) {
+        if (!participants.contains(u)) {
+            participants.add(u);
+        }
+    }
+
+    public void removeParticipant(User u) {
+        participants.remove(u);
+    }
 }
