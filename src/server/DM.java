@@ -1,7 +1,9 @@
-public class DirectMessage extends Chat {
+import java.util.List;
+
+public class DM extends Chat {
     private User participant;
 
-    public DirectMessage(String ID, User participant) {
+    public DM(String ID, User participant) {
         super(ID);
         this.participant = participant;
     }

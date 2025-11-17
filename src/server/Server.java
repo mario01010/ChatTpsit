@@ -1,3 +1,8 @@
+import java.io.*;
+import java.net.*;
+import java.util.List;
+import java.util.ArrayList;
+
 public class Server {
     private DataOutputStream out;
     private BufferedReader in;
@@ -21,7 +26,7 @@ public class Server {
         String line;
         while( (line = in.readLine()) != null) {
             String[] parts = line.split(";", 5);
-            Message msg = new Message(parts[0], parts[1], parts[2], parts[3], parts[4]);
+            Message msg = new Message(parts[0], parts[1], parts[2], parts[3]);
             messages.add(msg);
             
             System.out.println("Messaggio ricevuto: " + msg.getContent());

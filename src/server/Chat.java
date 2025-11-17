@@ -1,25 +1,37 @@
-public class Chat{
+import java.util.List;
+
+public abstract class Chat {
     private String ID;
     private List<Message> messaggi;
-    private List<User> utenti;
+    private List<User> participants;
 
-    public Chat(String ID){
+    public Chat(String ID) {
         this.ID = ID;
     }
 
-    public List<User> getUtenti() {
-        return utenti;
-    }
+    public abstract List<User> getParticipants();
 
     public List<Message> getMessaggi() {
         return messaggi;
     }
 
-    public void setMessaggi(List<Message> messaggi) {
-        this.messaggi = messaggi;
+    public void addMessage(Message message) {
+        messaggi.add(message);
     }
 
-    public void setUtenti(List<User> utenti) {
-        this.utenti = utenti;
+    public void addParticipant(User u) {
+        participants.add(u);
+    }
+
+    public void removeParticipant(User u) {
+        participants.remove(u);
+    }
+
+
+    public abstract String getChatType();
+
+
+    public String getID() {
+        return ID;
     }
 }

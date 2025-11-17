@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Gruppo extends Chat {
     private List<User> participants;
 
