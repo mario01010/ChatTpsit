@@ -1,13 +1,16 @@
 import java.util.Map;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class UserManager{
     private Map<String, User> userList;
     private Map<String, User> online;
+    private DBManager dbManager;
 
     public UserManager(){
         userList = new HashMap<>();
         online = new HashMap<>();
+        dbManager = new DBManager();
     }
 
     public boolean register(User u){
@@ -15,6 +18,12 @@ public class UserManager{
             return false;
         } else {
             userList.put(u.getUsername(), u);
+            try{
+                dbManager.addUser(u.getUsername(), u.getPassword(), u.getStatus() ? 1 : 0);
+            } catch (SQLException e){
+                e.printStackTrace();
+                System.out.println("Errore durante la registrazione dell'utente nel database.");
+            }
             return true;
         }
     }

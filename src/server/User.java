@@ -1,20 +1,20 @@
 import java.util.List;
 
 public abstract class User {
-    private String ID;
+    private int ID;
     private String username;
     private String password;
     private List<Chat> chat;
     private boolean status;
 
-    public User(String ID, String username, String password, boolean status) {
+    public User(int ID, String username, String password, boolean status) {
         this.ID = ID;
         this.username = username;
         this.password = password;
         this.status = status;
     }
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
@@ -42,7 +42,7 @@ public abstract class User {
         this.username = username;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 }

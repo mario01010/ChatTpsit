@@ -1,11 +1,11 @@
 import java.util.List;
 
 public abstract class Chat {
-    private String ID;
+    private int ID;
     private List<Message> messaggi;
     private List<User> participants;
 
-    public Chat(String ID) {
+    public Chat(int ID) {
         this.ID = ID;
     }
 
@@ -31,7 +31,7 @@ public abstract class Chat {
     public abstract String getChatType();
 
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 }

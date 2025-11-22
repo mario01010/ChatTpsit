@@ -5,7 +5,7 @@ public class Gruppo extends Chat {
     private String nome;
     private List<User> participants;
 
-    public Gruppo(String ID, String nome) {
+    public Gruppo(int ID, String nome) {
         super(ID);
         this.nome = nome;
         this.participants = new ArrayList<>();
