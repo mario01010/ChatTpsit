@@ -3,10 +3,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBManager {
-    private static final String DB_URL = "jdbc:sqlite:../Database/chat.db";
+    private static final String DB_URL = "jdbc:sqlite:Database/chat.db";
     private Connection conn;
 
     public DBManager() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         try {
             conn = DriverManager.getConnection(DB_URL);
             //createTables();
@@ -66,7 +73,7 @@ public class DBManager {
 
     // Inserimento utente
     public int addUser(String username, String password, int status) throws SQLException {
-        String sql = "INSERT INTO User (username, password, status) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Utente (username, password, status) VALUES (?, ?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
         ps.setString(1, username);
@@ -137,7 +144,7 @@ public class DBManager {
     public List<String> getMessages(int idChat) throws SQLException {
         String sql = "SELECT m.id_messaggio, m.content, u.username, m.time " +
                      "FROM Messaggio m " +
-                     "JOIN User u ON m.id_utente = u.id_utente " +
+                     "JOIN Utente u ON m.id_utente = u.id_utente " +
                      "WHERE m.id_chat = ? " +
                      "ORDER BY m.time ASC";
         PreparedStatement ps = conn.prepareStatement(sql);

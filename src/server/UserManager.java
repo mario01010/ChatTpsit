@@ -1,26 +1,28 @@
 import java.util.Map;
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.sql.SQLException;
 
-public class UserManager{
+public class UserManager {
     private Map<String, User> userList;
     private Map<String, User> online;
+    private Map<User, ClientHandler> clientHandlers; 
     private DBManager dbManager;
 
-    public UserManager(){
+    public UserManager() {
         userList = new HashMap<>();
         online = new HashMap<>();
+        clientHandlers = new HashMap<>();
         dbManager = new DBManager();
     }
 
-    public boolean register(User u){
-        if(userList.containsKey(u.getUsername())){
+    public boolean register(User u) {
+        if (userList.containsKey(u.getUsername())) {
             return false;
         } else {
             userList.put(u.getUsername(), u);
-            try{
+            try {
                 dbManager.addUser(u.getUsername(), u.getPassword(), u.getStatus() ? 1 : 0);
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println("Errore durante la registrazione dell'utente nel database.");
             }
@@ -28,32 +30,49 @@ public class UserManager{
         }
     }
 
-    public User login(String username, String password){
+    public User login(String username, String password) {
         User u = userList.get(username);
-        if(u != null && u.getPassword().equals(password)){
+        if (u != null && u.getPassword().equals(password)) {
             u.setStatus(true);
             online.put(username, u);
             return u;
-        } else{
+        } else {
             return null;
         }
     }
 
-    public boolean logout(User u){
-        if(u != null && u.getStatus()){
+    public boolean logout(User u) {
+        if (u != null && u.getStatus()) {
             u.setStatus(false);
             online.remove(u.getUsername());
+            clientHandlers.remove(u);
             return true;
         } else {
             return false;
         }
     }
 
-    public User getUser(String username){
+    public User getUser(String username) {
         return userList.get(username);
     }
 
-    public User getOnline(String username){
+    public User getOnline(String username) {
         return online.get(username);
+    }
+
+    public void setClientHandler(User user, ClientHandler handler) {
+        clientHandlers.put(user, handler);
+    }
+
+    public ClientHandler getClientHandler(User user) {
+        return clientHandlers.get(user);
+    }
+
+    public boolean isOnline(User user) {
+        return online.containsKey(user.getUsername());
+    }
+
+    public boolean removeClientHandler(User user) {
+        return clientHandlers.remove(user) != null;
     }
 }
