@@ -14,6 +14,14 @@ public class ChatManager{
         direct = new HashMap<>();
         groups = new HashMap<>();
         dbManager = new DBManager();
+
+        try {
+            loadChatsFromDB();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Errore nel caricamento delle chat dal database");
+        }
+
     }
 
     public Chat createDM(User u1, User u2) {
@@ -39,12 +47,16 @@ public class ChatManager{
 
 
 
-    public Chat createGroup(String nome){
+    public Chat createGroup(String nome, User creator){
         try{
             int chatId = dbManager.addChat("Gruppo");
             dbManager.addGroup(chatId, nome);
 
             Gruppo g = new Gruppo(chatId, nome);
+
+            dbManager.addUserToChat(chatId, creator.getID());
+
+            g.addParticipant(creator);
 
             chats.put(g.getID(), g);
             groups.put(g.getID(), g);
@@ -68,5 +80,21 @@ public class ChatManager{
             }
         }
         return result;
+    }
+
+    public void loadChatsFromDB() throws Exception {
+        chats.clear();
+        direct.clear();
+        groups.clear();
+        
+        for (Chat c : dbManager.getAllChats()) {
+            chats.put(c.getID(), c);
+            if (c.getChatType().equals("DirectMessage")) {
+                direct.put(c.getID(), (DM) c);
+            } else if (c.getChatType().equals("Gruppo")) {
+                groups.put(c.getID(), (Gruppo) c);
+            }
+        }
+        System.out.println("Caricate " + chats.size() + " chat dal database");
     }
 }

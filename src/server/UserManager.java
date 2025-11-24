@@ -13,6 +13,20 @@ public class UserManager {
         online = new HashMap<>();
         clientHandlers = new HashMap<>();
         dbManager = new DBManager();
+
+        // carica utenti dal DB all'avvio
+        loadUsersFromDB();
+    }
+
+    private void loadUsersFromDB() {
+        try {
+            for (User u : dbManager.getAllUsers()) {
+                userList.put(u.getUsername(), u);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Errore nel caricamento utenti dal database.");
+        }
     }
 
     public boolean register(User u) {
@@ -76,3 +90,4 @@ public class UserManager {
         return clientHandlers.remove(user) != null;
     }
 }
+
